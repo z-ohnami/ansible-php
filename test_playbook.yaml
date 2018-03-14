@@ -1,9 +1,0 @@
----
-- hosts: app_servers
-  tasks:
-  - name: create directory
-    file:
-      path: /home/zoh/tmp
-      state: directory
-      owner: zoh
-      mode: 0755

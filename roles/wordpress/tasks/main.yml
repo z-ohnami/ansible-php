@@ -1,0 +1,9 @@
+---
+- name: check wordpress installed ?
+  stat: path=/var/www/html/index.php
+  register: wordpress
+- block:
+    - unarchive: src={{ wordpress_download_site_url }}/{{ wordpress_download_file_name }} dest=/var/www copy=no
+    - command: mv /var/www/wordpress /var/www/html
+    - file: path=/var/www/html owner=nginx group=nginx state=directory recurse=yes
+  when: not wordpress.stat.exists

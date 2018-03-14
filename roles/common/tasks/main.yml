@@ -1,3 +1,39 @@
 ---
 - name: set timezone
-  command: sudo timedatectl set-timezone Asia/Tokyo
+  command: timedatectl set-timezone Asia/Tokyo
+- name: selinux setting
+  selinux:
+    policy: targeted
+    state: permissive
+  when: ansible_selinux.config_mode == 'enforcing'
+- name: check /dev/sdb formatted ?
+  shell: lsblk | grep sdb1
+  register: sdbformatted
+  ignore_errors: True
+- block:
+    - parted:
+        device: /dev/sdb
+        number: 1
+        state: present
+    - command: mkfs.ext4 -m 0 -F -E lazy_itable_init=0,lazy_journal_init=0,discard /dev/sdb1
+  when: sdbformatted.rc == 1
+- name: check mount directory created ?
+  stat: path=/var/www
+  register: wpdisk
+- block:
+    - file: path=/var/www state=directory
+    - mount: name=/var/www src=/dev/sdb1 fstype=ext4 opts='discard,defaults' state=mounted
+    - file: path=/var/www mode="a+w"
+  when: not wpdisk.stat.exists
+- name: yum update
+  yum:
+    name: '*'
+    state: latest
+    update_cache: yes
+- name: check remi-release-7
+  stat: path=/etc/yum.repos.d/remi.repo
+  register: remi_release_7
+- block:
+    - rpm_key: key=http://rpms.famillecollet.com/RPM-GPG-KEY-remi
+    - yum: name=http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+  when: not remi_release_7.stat.exists

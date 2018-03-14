@@ -1,7 +1,12 @@
 # ansible-php
 
+* GCE側でcloudsql APIを有効化する
+* CloudSQL側でGCEのサービスアカウントをCloudSQLクライアントとして登録する
+* CloudSQL側のデータベースとユーザー権限を調整しておく
+
 ```
-$ ansible-playbook -u {user name} --private-key={key file}  -i inventory.ini test_playbook.yaml
+$ ansible-doc copy
+$ ansible-playbook -u {user name} --private-key={private key file}  -i inventory.ini test_playbook.yaml
 $ scp -i {key file} {user name}@{host name}:/etc/php-fpm.d/www.conf php/www.conf
 ```
 

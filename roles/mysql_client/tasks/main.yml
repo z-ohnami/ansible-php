@@ -1,0 +1,16 @@
+---
+- name: install mysql client
+  yum: name=mysql
+# setup cloud sql proxy
+- name: check cloud sql proxy created ?
+  stat: path=/usr/local/bin/cloud_sql_proxy
+  register: cloudsqlproxy
+- block:
+    - get_url: url=https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 dest=/usr/local/bin/cloud_sql_proxy 
+    - file: path=/usr/local/bin/cloud_sql_proxy mode="+x"
+    - file: path=/cloudsql state=directory mode=0777
+  when: not cloudsqlproxy.stat.exists
+- name: start cloud sql proxy
+  shell: /usr/local/bin/cloud_sql_proxy -dir=/cloudsql -instances={{ db_instance_name }} >& /var/log/cloud_sql_proxy.log &
+  async: 5
+  poll: 0

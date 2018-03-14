@@ -1,0 +1,10 @@
+---
+- name: Common configuration
+  hosts: app_servers
+  become: yes
+  roles:
+    - common
+    - mysql_client
+    - nginx
+    - php
+    - wordpress

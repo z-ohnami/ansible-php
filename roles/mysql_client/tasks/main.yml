@@ -10,7 +10,11 @@
     - file: path=/usr/local/bin/cloud_sql_proxy mode="+x"
     - file: path=/cloudsql state=directory mode=0777
   when: not cloudsqlproxy.stat.exists
-- name: start cloud sql proxy
-  shell: /usr/local/bin/cloud_sql_proxy -dir=/cloudsql -instances={{ db_instance_name }} >& /var/log/cloud_sql_proxy.log &
-  async: 5
-  poll: 0
+# start cloud sql proxy service
+- block:
+    - template: src=opt/cloud_sql_proxy.j2 dest=/opt/cloud_sql_proxy.sh mode="+x"
+    - copy: src=etc/systemd/system/cloud_sql_proxy.service dest=/etc/systemd/system/cloud_sql_proxy.service
+    - file: path=/var/log/cloud_sql_proxy.log state=absent
+    - file: path=/var/log/cloud_sql_proxy.log owner=nginx group=nginx mode=0660 state=touch
+    - command: systemctl start cloud_sql_proxy
+    - command: systemctl enable cloud_sql_proxy

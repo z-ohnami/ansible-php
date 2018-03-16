@@ -1,3 +1,3 @@
 inventory.ini
-roles/mysql_client/vars/mysql.yml
+roles/private_vars/*.yml
 *.retry

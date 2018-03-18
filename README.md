@@ -7,6 +7,23 @@
 ```
 $ ansible-doc copy
 $ ansible-playbook -u {user name} --private-key={private key file}  -i inventory.ini test_playbook.yaml
+```
+
+```
+sudo lsblk
+sudo mkfs.ext4 -m 0 -F -E lazy_itable_init=0,lazy_journal_init=0,discard /dev/sdb
+sudo mkdir -p /contents
+sudo mount -o discard,defaults /dev/sdb /contents
+sudo chmod a+w /contents/
+sudo cp /etc/fstab /etc/fstab.backup
+sudo blkid /dev/sdb
+sudo vim /etc/fstab
+UUID=[UUID_VALUE] /contents ext4 discard,defaults,nofail 0 2
+```
+
+```
+$ ansible-playbook -u {user name} --private-key={key file}  -i inventory.ini test_playbook.yaml
+>>>>>>> Stashed changes
 $ scp -i {key file} {user name}@{host name}:/etc/php-fpm.d/www.conf php/www.conf
 ```
 

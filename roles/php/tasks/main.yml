@@ -2,7 +2,8 @@
 - block:
     - yum: enablerepo=remi,remi-php70 name=php-fpm
     - yum: enablerepo=remi,remi-php70 name=php-mysqlnd
+    - yum: enablerepo=remi,remi-php70 name=php-mbstring
     - copy: src=etc/php-fpm.d/www.conf dest=/etc/php-fpm.d/www.conf
 - block:
-    - command: systemctl start php-fpm
+    - command: systemctl restart php-fpm
     - command: systemctl enable php-fpm

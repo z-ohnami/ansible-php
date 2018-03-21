@@ -23,7 +23,6 @@ UUID=[UUID_VALUE] /contents ext4 discard,defaults,nofail 0 2
 
 ```
 $ ansible-playbook -u {user name} --private-key={key file}  -i inventory.ini test_playbook.yaml
->>>>>>> Stashed changes
 $ scp -i {key file} {user name}@{host name}:/etc/php-fpm.d/www.conf php/www.conf
 ```
 
@@ -77,6 +76,10 @@ nohup cloud_sql_proxy -dir=/cloudsql -instances={db instance} &
 curl -o wordpress-4.9.4-ja.tar.gz https://ja.wordpress.org/wordpress-4.9.4-ja.tar.gz
 tar zxvf wordpress-4.9.4-ja.tar.gz
 sudo chown -R nginx:nginx wordpress
+```
+
+```
+certbot-auto certonly -n --webroot -w DOCUMENT_ROOT -d DOMAIN --email EMAIL
 ```
 
 

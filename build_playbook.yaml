@@ -6,7 +6,7 @@
     - roles/private_vars/mysql.yml
   roles:
     - common
-    - mysql_client
     - nginx
+    - mysql_client
     - php
     - wordpress

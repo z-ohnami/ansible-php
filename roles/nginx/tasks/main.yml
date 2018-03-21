@@ -3,5 +3,5 @@
     - yum: name=nginx
     - copy: src=etc/nginx/nginx.conf dest=/etc/nginx/nginx.conf
 - block:
-    - command: systemctl start nginx
+    - command: systemctl restart nginx
     - command: systemctl enable nginx

@@ -4,9 +4,17 @@
   become: yes
   vars_files:
     - roles/private_vars/mysql.yml
+    - roles/private_vars/nginx.yml
+  vars:
+    letsencrypt_webroot_path: /var/www/html
+    letsencrypt_email: "{{ admin_email }}"
+    letsencrypt_cert_domains:
+      - "{{ domain_name }}"
+    letsencrypt_renewal_command_args: '--renew-hook "systemctl restart nginx"'
   roles:
     - common
-    - nginx
+    - wordpress
     - mysql_client
     - php
-    - wordpress
+    - nginx
+    - thefinn93.letsencrypt

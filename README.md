@@ -6,6 +6,7 @@
 
 ```
 $ ansible-doc copy
+$ ansible-galaxy install thefinn93.letsencrypt -p roles/letsencrypt
 $ ansible-playbook -u {user name} --private-key={private key file}  -i inventory.ini test_playbook.yaml
 ```
 

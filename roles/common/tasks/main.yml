@@ -37,5 +37,6 @@
     - rpm_key: key=http://rpms.famillecollet.com/RPM-GPG-KEY-remi
     - yum: name=http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
   when: not remi_release_7.stat.exists
-- name: install let's Encrypt
-  get_url: url=https://dl.eff.org/certbot-auto dest=/usr/local/bin/certbot-auto mode=0700
+- block:
+    - group: name=nginx
+    - user: name=nginx group=nginx
